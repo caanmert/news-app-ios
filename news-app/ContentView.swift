@@ -1,22 +1,30 @@
+import Foundation
 import SwiftUI
 
 struct ContentView: View {
-    @StateObject private var api = ApiClient()
+   @StateObject var viewModel = ArticleListViewModel()
     var body: some View {
         NavigationView{
-            List(api.articles){ article in
-                NavigationLink(destination:ArticleDetailsView(article: article)){
-                    ArticleView(article: article)
+            Group{
+                if viewModel.isLoading{
+                    ProgressView()
+                } else if let error = viewModel.error{
+                    Text(error.localizedDescription)
+                } else {
+                    List(viewModel.articles) { article in
+                        NavigationLink(destination: ArticleDetailsView(article: article)){
+                            //ext(article.title)
+                            ArticleRowView(article: article)
+                        }
+                    }.navigationTitle("News")
                 }
             }
-            .navigationTitle("UK News")
-            .onAppear{
-                api.getData()
-            }
+        }.onAppear{
+            viewModel.loadData()
         }
+    
     }
 }
-
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
