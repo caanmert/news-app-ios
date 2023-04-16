@@ -14,12 +14,16 @@ class ArticleListViewModel:ObservableObject{
     
     init(newsApiProtocol: NewsAPIProtocol = NewsAPI()){
         self.newsApiProtocol = newsApiProtocol
-     //   loadData()
+    }
+    
+    func toDefaultValues() {
+        isLoading = true
+        error = nil
     }
     
     
     func loadData(country:String = "gb") {
-        isLoading = true
+        toDefaultValues()
         newsApiProtocol.fetchArticles(country: country)
             .receive(on: DispatchQueue.main)
             .sink(receiveCompletion: { completion in

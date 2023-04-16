@@ -12,7 +12,7 @@ struct ArticleDetailsView:View{
             Text(article.title).font(.system(.headline, design: .serif))
             Spacer()
             Divider()
-            GoToArticleButton(text: "Go To Article", action: { openURL(URL(string:article.url)!)})
+            CustomButton(text: "Go To Article", action: { openURL(URL(string:article.url)!)})
         }.padding()
         
     }

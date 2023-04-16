@@ -8,8 +8,8 @@ struct ContentView: View {
             Group{
                 if viewModel.isLoading{
                     ProgressView()
-                } else if let error = viewModel.error{
-                    Text(error.localizedDescription)
+                } else if viewModel.error != nil{
+                    ErrorView(viewModel: viewModel)
                 } else {
                     List(viewModel.articles) { article in
                         NavigationLink(destination: ArticleDetailsView(article: article)){
